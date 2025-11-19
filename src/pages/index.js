@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'; // Changed from react-router-dom
 import axios from 'axios';
+import { login, storeUser } from '../../services/auth.service';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -17,43 +18,39 @@ const Login = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+const onSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setError('');
+  
+  try {
+    const body = { email, password };
+    console.log("Sending login request:", body);
     
-    try {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
+    const response = await login(body);
+    console.log("Login response:", response);
 
-      const body = JSON.stringify({ email, password });
-      
-  const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/auth/login`, 
-        body, 
-        config
-      );      
-      console.log("user",response)
-      // Assuming the response includes user data with role
-      const { role } = response.data.data.user;
-      
-      // Redirect based on role
-       if (role.includes('ADMIN')) {
-        router.push('/admin'); // Changed from navigate('/admin')
-      } else if (role.includes('USER')) {
-        router.push('/home');
-      } else {
-        router.push('/');
-      }
-      
-    } catch (err) {
-      setError(err.response?.data?.data?.message || 'Login failed');
-      setLoading(false);
+    storeUser(response);
+       
+    // ✅ Handle user data and redirect
+    const userData = response.data || response;
+    const role = userData.role;
+    
+    console.log("Login successful, user role:", role);
+    
+    if (role?.includes('ADMIN')) {
+      router.push('/home');
+    } else {
+      router.push('/home');
     }
-  };
-
+    
+  } catch (err) {
+    console.error("Login error:", err);
+    setError(err.message || 'Login failed');
+  } finally {
+    setLoading(false);
+  }
+};
   return (
     <div className="min-h-screen p-2-sm flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
