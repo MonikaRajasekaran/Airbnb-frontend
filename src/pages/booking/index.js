@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import RoomDetails from '@/components/RoomDetails';
 import BookingCard from '@/components/bookingCard';
 import { useRouter } from 'next/router';
-import { listings } from '../../../public/data/listing';
+import { listings } from '@@/data/listing';
 import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
 import { setPayment } from '@/features/paymentSlice';
@@ -96,49 +96,10 @@ function BookingDetails({ details }) {
   const dispatch = useDispatch();
   const router = useRouter();
   const { id, title, checkInDate, checkOutDate, adult, child, infant, nights, perNightPrice, totalPrice } = router.query;
-  
-  console.log("Router query:", router.query);
-  console.log("ID value:", id, "Type:", typeof id);
 
-  // Check if we have the required booking parameters
-  if (!id || !title || !checkInDate || !checkOutDate) {
-    return (
-      <div className="container mx-auto p-8">
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-yellow-800 mb-2">Incomplete Booking Information</h2>
-          <p className="text-yellow-700 mb-4">
-            Please select a property and both check-in and check-out dates to make a reservation.
-          </p>
-          <button 
-            onClick={() => router.push('/home')}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          >
-            Browse Properties
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  const packageList = listings.find((item) => item.id === parseInt(id));
-  console.log("packageList", packageList);
+  const packageList = listings.find((item) => item.id == id);
   if (!packageList) {
-    return (
-      <div className="container mx-auto p-8">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-red-800 mb-2">Property Not Found</h2>
-          <p className="text-red-700 mb-4">
-            The property with ID {id} could not be found. Please select a different property.
-          </p>
-          <button 
-            onClick={() => router.push('/')}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          >
-            Browse Properties
-          </button>
-        </div>
-      </div>
-    );
+    return <p>Package not found</p>;
   }
 
   const serviceFee = 3397; // Static service fee
@@ -147,45 +108,9 @@ function BookingDetails({ details }) {
   const totalWithFees = parseInt(totalPrice) + serviceFee + cleaningFee + taxes;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [guestDetails, setGuestDetails] = useState({
-    country: '+91',
-    phone: ''
-  });
 
   const handlePayment = () => {
     setIsModalOpen(true); // Open modal
-  };
-
-  const handleGuestSubmit = (e) => {
-    e.preventDefault();
-    // Validate phone number
-    if (!guestDetails.phone) {
-      alert('Please enter your phone number');
-      return;
-    }
-    
-    // Proceed to payment with guest details
-    dispatch(setPayment({
-      roomID: id,
-      bookingId: Math.floor(100000 + Math.random() * 900000), // Random booking ID
-      totalFees: totalWithFees,
-      customerDetails: {
-        name: 'Guest User',
-        email: 'guest@example.com',
-        contact: guestDetails.country + guestDetails.phone,
-        country: guestDetails.country,
-        phone: guestDetails.phone
-      },
-    }));
-    router.push('/payment');
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setGuestDetails(prev => ({
-      ...prev,
-      [name]: value
-    }));
   };
 
   const handleModalSubmit = (customerDetails) => {
@@ -218,17 +143,12 @@ function BookingDetails({ details }) {
               <p className="text-base mb-4">{adult} adult, {child} child, {infant} infant</p>
             </div>
             
-            <form onSubmit={handleGuestSubmit} className="space-y-4">
+            <form className="space-y-4">
       {/* Country/Region Dropdown */}
     <h2 className="text-2xl font-bold mb-4 text-left p-4">Welcome to Higglers</h2>
 
       <div>
-        <select 
-          name="country" 
-          value={guestDetails.country}
-          onChange={handleInputChange}
-          className="w-full border p-2 rounded-md"
-        >
+        <select name="country" className="w-full border p-2 rounded-md">
           <option value="+91">India (+91)</option>
           <option value="+1">USA (+1)</option>
           {/* Add more options as needed */}
@@ -240,11 +160,8 @@ function BookingDetails({ details }) {
         <input
           type="text"
           name="phone"
-          value={guestDetails.phone}
-          onChange={handleInputChange}
           placeholder="Phone number"
           className="w-full border p-2 rounded-md"
-          required
         />
       </div>
 
@@ -257,10 +174,10 @@ function BookingDetails({ details }) {
       <div className="text-center text-gray-500 my-4">or</div>
 
       {/* Social Buttons */}
-      <button type="button" className="w-full border flex items-center justify-center p-2 rounded-md mb-2">
+      <button className="w-full border flex items-center justify-center p-2 rounded-md mb-2">
         <span>Continue with Facebook</span>
       </button>
-      <button type="button" className="w-full border flex items-center justify-center p-2 rounded-md mb-2">
+      <button className="w-full border flex items-center justify-center p-2 rounded-md mb-2">
         <span>Continue with Google</span>
       </button>
     
@@ -324,7 +241,7 @@ function BookingDetails({ details }) {
               </div>
               <button
               onClick={handlePayment}
-              className="w-full bg-pink-500 text-white p-2 rounded-md text-center font-semibold mt-4"
+              className="w-full bg-pink-500 text-white p-2 rounded-md text-center font-semibold"
             >
               Pay as guest
             </button>

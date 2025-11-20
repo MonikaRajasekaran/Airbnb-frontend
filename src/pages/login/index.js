@@ -31,7 +31,7 @@ const Login = () => {
       const body = JSON.stringify({ email, password });
       
   const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/auth/login`, 
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/auth/login`, 
         body, 
         config
       );      
