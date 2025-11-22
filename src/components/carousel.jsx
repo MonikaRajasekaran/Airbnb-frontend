@@ -106,7 +106,7 @@ const Carousel = ({ listing }) => {
         {/* Form for input */}
         <form className="space-y-4">
           {/* Country/Region Dropdown */}
-          <h2 className="text-2xl font-bold mb-4 text-left p-4">Welcome to Higglers</h2>
+          <h2 className="text-2xl font-bold mb-4 text-left p-4">Welcome to BookNest</h2>
 
           <div>
             <select name="country" className="w-full border p-2 rounded-md">

@@ -143,50 +143,11 @@ function BookingDetails({ details }) {
               <p className="text-base mb-4">{adult} adult, {child} child, {infant} infant</p>
             </div>
             
-            <form className="space-y-4">
-      {/* Country/Region Dropdown */}
-    <h2 className="text-2xl font-bold mb-4 text-left p-4">Welcome to Higglers</h2>
-
-      <div>
-        <select name="country" className="w-full border p-2 rounded-md">
-          <option value="+91">India (+91)</option>
-          <option value="+1">USA (+1)</option>
-          {/* Add more options as needed */}
-        </select>
-      </div>
-
-      {/* Phone Number Input */}
-      <div>
-        <input
-          type="text"
-          name="phone"
-          placeholder="Phone number"
-          className="w-full border p-2 rounded-md"
-        />
-      </div>
-
-      {/* Continue Button */}
-      <button type="submit" className="w-full bg-pink-500 text-white p-2 rounded-md text-center font-semibold">
-        Continue
-      </button>
-
-      {/* Or separator */}
-      <div className="text-center text-gray-500 my-4">or</div>
-
-      {/* Social Buttons */}
-      <button className="w-full border flex items-center justify-center p-2 rounded-md mb-2">
-        <span>Continue with Facebook</span>
-      </button>
-      <button className="w-full border flex items-center justify-center p-2 rounded-md mb-2">
-        <span>Continue with Google</span>
-      </button>
-    
-    </form>
-            
+          
           </div>
 
           <div className="right-content w-1/2">
-            <div className="sticky top-24 bg-white p-6 shadow-md border rounded-lg">
+            <div className="sticky top-24 bg-w hite p-6 shadow-md border rounded-lg">
               <h2 className="text-2xl font-bold mb-4">Price details</h2>
               <div className='flex gap-4 border-b p-4'>
                 <div>
@@ -243,7 +204,7 @@ function BookingDetails({ details }) {
               onClick={handlePayment}
               className="w-full bg-pink-500 text-white p-2 rounded-md text-center font-semibold"
             >
-              Pay as guest
+              Proceed to Pay
             </button>
             </div>
           </div>

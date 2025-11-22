@@ -82,7 +82,7 @@ function Header({ details }) {
         
         {/* Logo */}
         <div className="text-lg font-bold mb-4 sm:mb-0 sm:ml-8">
-          Higglers
+          BookNest
         </div>
 
         {/* Search Form */}

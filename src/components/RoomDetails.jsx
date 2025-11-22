@@ -222,7 +222,7 @@ console.log(checkInDate,checkOutDate);
               <p className="text-xl">Total: ₹{totalPrice}</p>
             </div>
             <div className="flex justify-between m-2">
-              <p className="text-xl">Airbnb service fee</p>
+              <p className="text-xl">BookNest service fee</p>
               <p className="text-xl">₹{serviceFee}</p>
             </div>
             <div className="flex justify-between m-2">

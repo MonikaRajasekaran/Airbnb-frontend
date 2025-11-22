@@ -2,8 +2,8 @@
 import Razorpay from 'razorpay';
 
 const razorpay = new Razorpay({
-  key_id: "rzp_test_v9ZaUEel7kp4bo", // Use environment variable
-  key_secret: "hle0bWPfJEShCNp9ufQHIKXv", // Use environment variable
+  key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
 // RAZORPAY_KEY_ID="rzp_test_calheHXCf1668F"
